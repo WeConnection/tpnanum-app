@@ -107,7 +107,7 @@ dist
 .DS_Store
 
 # expo
-.expo/*
+.expo/
 npm-debug.*
 *.jks
 *.p8
