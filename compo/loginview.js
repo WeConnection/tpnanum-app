@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight } from 'react-native';
 import hostaddr from '../config'
 
 export default function LoginView() {
@@ -19,6 +19,10 @@ export default function LoginView() {
 
   return (
     <View style={styles.container}>
+      <View style={{
+        width: 200,
+        marginVertical: 100,
+      }}>
         <Text style={{
             textAlign: 'center',
             fontSize: 60,
@@ -42,16 +46,39 @@ export default function LoginView() {
             title='로그인'
             onPress={login}
         />
+      </View>
+      <View style={{
+        marginVertical: 100,
+      }}>
+        <TouchableHighlight>
+          <Text style={{
+            marginVertical: 10,
+            color: 'darkorange',
+          }}>
+            계정을 아직 만들지 않으셨나요?
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight>
+          <Text style={{
+            marginVertical: 10,
+            color: 'darkorange',
+          }}>
+            계정을 잃어버렸습니까?
+          </Text>
+        </TouchableHighlight>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    alignSelf: 'center',
     flexDirection: 'column',
     width: 200,
     backgroundColor: '#fff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
