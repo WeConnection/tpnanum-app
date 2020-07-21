@@ -3,9 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Image, Text, TouchableHighlight } from 'react-native';
 import LoginView from './compo/loginview';
+import FeedView from './compo/feedview';
+import OrgView from './compo/orgview';
+import NoticeView from './compo/noticeview';
+import ProfileView from './compo/profileview';
 
 const MainView = () => {
   const [state, setState] = React.useState('feed');
+  const target = {feed: <FeedView />, org: <OrgView />, notice: <NoticeView />, profile: <ProfileView />}[state];
 
   return(
     <View style={{
@@ -16,26 +21,29 @@ const MainView = () => {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'cornsilk',
       }}>
-        <Text>state: {state}</Text>
+        {target}
       </View>
       <View style={{
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginVertical: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 20,
+        backgroundColor: 'darkseagreen',
       }}>
         <TouchableHighlight onPress={() => setState('feed')}>
-          <Image source={require('./assets/favicon.png')} />
+          <Image source={require('./assets/article.png')} />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => setState('org')}>
-          <Image source={require('./assets/favicon.png')} />
+          <Image source={require('./assets/organization.png')} />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => setState('notice')}>
-          <Image source={require('./assets/favicon.png')} />
+          <Image source={require('./assets/notification.png')} />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => setState('profile')}>
-          <Image source={require('./assets/favicon.png')} />
+          <Image source={require('./assets/account.png')} />
         </TouchableHighlight>
       </View>
     </View>
