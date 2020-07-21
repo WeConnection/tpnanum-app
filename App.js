@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Image, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 import LoginView from './compo/loginview';
 import FeedView from './compo/feedview';
 import OrgView from './compo/orgview';
