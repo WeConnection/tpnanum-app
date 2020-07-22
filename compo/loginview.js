@@ -42,6 +42,7 @@ export default function LoginView(props) {
             placeholder='비밀번호'
             onChangeText={text => setPassword(text)}
             value={password}
+            secureTextEntry={true}
         />
         <Button
             title='로그인'
