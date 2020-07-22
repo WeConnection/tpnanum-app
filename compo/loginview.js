@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight } from 'react-native';
 import hostaddr from '../config'
 
-export default function LoginView() {
+export default function LoginView(props) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const login = (props) => {
+  const login = () => {
     props.onLogin();
     return fetch(hostaddr + '/login', {
       method: 'POST',
