@@ -58,7 +58,10 @@ export default function App() {
    
   return (
     <View style={styles.container}>
-      {logined ? <MainView /> : <LoginView />}
+      {logined ? <MainView /> : <LoginView onLogin={() => {
+        AsyncStorage.getItem('username')
+        .then((username) => {setLogin(Boolean(username))});
+      }} />}
       <StatusBar style="auto" />
     </View>
   );

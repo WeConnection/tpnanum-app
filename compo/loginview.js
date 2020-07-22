@@ -6,7 +6,8 @@ export default function LoginView() {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const login = () => {
+  const login = (porps) => {
+    porps.onLogin();
     return fetch(hostaddr + '/login', {
       method: 'POST',
       credentials: 'same-origin',
