@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
 import hostaddr from '../config'
 
 export default function LoginView(props) {
@@ -15,10 +15,34 @@ export default function LoginView(props) {
         username: username,
         password: password
       }),
-    })
-    .then(res => res.text())
-    .then(text => console.log(text))
+    }).then(res => {
+      if(!res.ok){
+        Alert.alert(
+          '로그인 실패',
+          '아이디와 비밀번호를 확인해주세요',
+          [
+            {
+              text: '닫기',
+              style: 'cancle',
+            },
+          ],
+          {cancelable: false},
+        );
+      }
+      return res.text();
+    }).then(text => console.log(text))
     .catch((err) => {
+      Alert.alert(
+        '로그인 실패',
+        String(err),
+        [
+          {
+            text: '닫기',
+            style: 'cancle',
+          },
+        ],
+        {cancelable: false},
+      );
       console.log(err);
     });
   }
