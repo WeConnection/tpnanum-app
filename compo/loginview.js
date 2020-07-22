@@ -8,13 +8,18 @@ export default function LoginView(props) {
 
   const login = () => {
     props.onLogin();
-    return fetch(hostaddr + '/login', {
+    fetch(hostaddr + '/login', {
       method: 'POST',
       credentials: 'same-origin',
       body: JSON.stringify({
         username: username,
         password: password
       }),
+    })
+    .then(res => res.text())
+    .then(text => console.log(text))
+    .catch((err) => {
+      console.log(err);
     });
   }
 
