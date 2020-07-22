@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Image, TouchableHighlight, Text } from 'react-native';
+import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 import LoginView from './compo/loginview';
 import FeedView from './compo/feedview';
 import OrgView from './compo/orgview';
@@ -52,16 +52,16 @@ const MainView = () => {
 
 export default function App() {
   const [logined, setLogin] = React.useState(true);
+  const loginCheck = () => {
+    AsyncStorage.getItem('username')
+      .then((username) => {setLogin(Boolean(username))});
+  };
 
-  AsyncStorage.getItem('username')
-    .then((username) => {setLogin(Boolean(username))});
-   
+  loginCheck();
+
   return (
     <View style={styles.container}>
-      {logined ? <MainView /> : <LoginView onLogin={() => {
-        AsyncStorage.getItem('username')
-        .then((username) => {setLogin(Boolean(username))});
-      }} />}
+      {logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
       <StatusBar style="auto" />
     </View>
   );
