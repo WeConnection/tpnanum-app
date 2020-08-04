@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
+import { Entypo, Octicons, AntDesign } from '@expo/vector-icons';
 import LoginView from './compo/loginview';
 import FeedView from './compo/feedview';
 import OrgView from './compo/orgview';
@@ -34,16 +35,16 @@ const MainView = () => {
         backgroundColor: 'darkseagreen',
       }}>
         <TouchableHighlight onPress={() => setState('feed')}>
-          <Image source={require('./assets/article.png')} />
+          <Entypo style={styles.icon} name='news' size={36} color='black' />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => setState('org')}>
-          <Image source={require('./assets/organization.png')} />
+          <Octicons style={styles.icon} name='organization' size={36} color='black' />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => setState('notice')}>
-          <Image source={require('./assets/notification.png')} />
+          <Entypo style={styles.icon} name='notification' size={36} color='black' />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => setState('profile')}>
-          <Image source={require('./assets/account.png')} />
+          <AntDesign style={styles.icon} name='profile' size={36} color='black' />
         </TouchableHighlight>
       </View>
     </View>
@@ -61,7 +62,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
+      {!logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
       <StatusBar style="auto" />
     </View>
   );
@@ -72,4 +73,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  icon: {
+    paddingHorizontal: 20,
+    paddingVertical: 4,
+  }
 });
