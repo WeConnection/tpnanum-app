@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 import { Entypo, Octicons, AntDesign } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
 import LoginView from './compo/loginview';
 import FeedView from './compo/feedview';
 import OrgView from './compo/orgview';
@@ -61,10 +62,10 @@ export default function App() {
   loginCheck();
 
   return (
-    <View style={styles.container}>
+    <NavigationContainer>
       {!logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
 
