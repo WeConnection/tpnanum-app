@@ -1,41 +1,46 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
-import hostaddr from '../config'
+import {hostaddr} from '../config'
+import * as SecureStore from 'expo-secure-store';
+
 
 export default function LoginView(props) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const login = () => {
-    props.onLogin();
-    fetch(hostaddr + '/login', {
-      method: 'POST',
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        username: username,
-        password: password
-      }),
-    }).then(res => {
-      if(!res.ok){
-        Alert.alert(
-          '로그인 실패',
-          '아이디와 비밀번호를 확인해주세요',
-          [
-            {
-              text: '닫기',
-              style: 'cancle',
-            },
-          ],
-          {cancelable: false},
-        );
-      }
-      else{
-        AsyncStorage.setItem('username', username);
-      }
-      return res.text();
-    }).then(text => console.log(text))
-    .catch((err) => {
+  const login = async() => {
+    // props.onLogin();/
+
+    try{
+      let loginHeaders = new Headers();
+      loginHeaders.append('Content-Type', 'application/json');
+      let res = await fetch(hostaddr + '/user/login', {
+        method: 'POST',
+        headers: loginHeaders,
+        body: JSON.stringify({
+          "username": username,
+          "password": password,
+        })
+    });
+    if(!res.ok){
+      Alert.alert(
+        '로그인 실패',
+        '아이디와 비밀번호를 확인해주세요',
+        [
+          {
+            text: '닫기',
+            style: 'cancle',
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+    else{
+      await AsyncStorage.setItem('username', username);
+      await SecureStore.setItemAsync("session", res.headers.get("Set-Cookie"))
+    }
+  }catch(err){
       Alert.alert(
         '로그인 실패',
         String(err),
@@ -48,7 +53,7 @@ export default function LoginView(props) {
         {cancelable: false},
       );
       console.log(err);
-    });
+    }
   }
 
   return (
