@@ -1,26 +1,60 @@
 import React from 'react';
-import { View, Image, TouchableHighlight } from 'react-native';
+import { ScrollView, Text, View, Image, TouchableHighlight, useWindowDimensions } from 'react-native';
 import hostaddr from '../config'
 
 const OrgIcon = (props) => {
     return (
-        <TouchableHighlight>
-            <Image source={{uri: props.imageUri}} />
+        <View>
+            <TouchableHighlight>
+                <Image source={require('../assets/favicon.png')} />
+            </TouchableHighlight>
             <Text>
-                {props.name}
+                이름
             </Text>
             <Text>
-                {props.tags[0]}
+                테그, 테그
             </Text>
-        </TouchableHighlight>
+        </View>
     );
 }
 
 const OrgView = () => {
-    return (
-        <View>
+    const width = useWindowDimensions().width;
+    const count = 10;
+    const fit = parseInt(width / 120);
+    let contents = [];
 
-        </View>
+    for(let i = 0; i < count / fit; i++)
+    {
+        let row = [];
+        for(let j = 0; (j < fit) && (i * fit + j < count); j++)
+        {
+            row.push(<OrgIcon />);
+        }
+        
+        contents.push(
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                marginHorizontal: 10,
+                marginVertical: 20,
+            }}>
+                {row}
+            </View>
+        );
+    }
+
+    return (
+        <ScrollView style={{
+            flex: 1,
+            flexDirection: 'column',
+            marginHorizontal: 20,
+            marginVertical: 10,
+        }}>
+            {contents}
+        </ScrollView>
     );
 };
 
