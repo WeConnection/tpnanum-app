@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, TouchableHighlight } from 'react-native';
 import { Entypo, Octicons, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginView from './compo/loginview';
@@ -63,7 +63,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
+      {logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
       <StatusBar style="auto" />
     </NavigationContainer>
   );
