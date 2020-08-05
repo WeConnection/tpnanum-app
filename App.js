@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
 import { Entypo, Octicons, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginView from './compo/loginview';
@@ -13,6 +13,7 @@ import ProfileView from './compo/profileview';
 const MainView = () => {
   const [state, setState] = React.useState('feed');
   const target = {feed: <FeedView />, org: <OrgView />, notice: <NoticeView />, profile: <ProfileView />}[state];
+  const title = {feed: '피드', org: '단체', notice: '알림', profile: '내정보'}[state];
 
   return(
     <View style={{
@@ -22,10 +23,19 @@ const MainView = () => {
       <View style={{
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: 'cornsilk',
       }}>
+        <View style={{
+          paddingHorizontal: 30,
+          paddingVertical: 20,
+          backgroundColor: 'white'
+        }}>
+          <Text style={{
+            fontSize: 30,
+          }}>
+            {title}
+          </Text>
+        </View>
         {target}
       </View>
       <View style={{
