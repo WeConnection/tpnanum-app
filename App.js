@@ -73,7 +73,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
+      {logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
       <StatusBar style="auto" />
     </NavigationContainer>
   );
