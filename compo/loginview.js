@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
 import hostaddr from '../config'
@@ -28,6 +29,9 @@ export default function LoginView(props) {
           ],
           {cancelable: false},
         );
+      }
+      else{
+        AsyncStorage.setItem('username', username);
       }
       return res.text();
     }).then(text => console.log(text))
