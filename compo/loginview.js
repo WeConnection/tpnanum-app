@@ -5,17 +5,15 @@ import {hostaddr} from '../config'
 import * as SecureStore from 'expo-secure-store';
 
 
-export default function LoginView(props) {
+export default function LoginView({navigation}) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const login = async() => {
-    // props.onLogin();/
-
     try{
-      let loginHeaders = new Headers();
+      const loginHeaders = new Headers();
       loginHeaders.append('Content-Type', 'application/json');
-      let res = await fetch(hostaddr + '/user/login', {
+      const res = await fetch(hostaddr + '/user/login', {
         method: 'POST',
         headers: loginHeaders,
         body: JSON.stringify({
@@ -24,9 +22,11 @@ export default function LoginView(props) {
         })
     });
     if(!res.ok){
+      const msg = await res.text();
+
       Alert.alert(
         '로그인 실패',
-        '아이디와 비밀번호를 확인해주세요',
+        msg,
         [
           {
             text: '닫기',
@@ -39,6 +39,10 @@ export default function LoginView(props) {
     else{
       await AsyncStorage.setItem('username', username);
       await SecureStore.setItemAsync("session", res.headers.get("Set-Cookie"))
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Main'}],
+      })
     }
   }catch(err){
       Alert.alert(
@@ -116,8 +120,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     flexDirection: 'column',
-    width: 200,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
