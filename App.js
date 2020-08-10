@@ -1,91 +1,62 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
 import { Entypo, Octicons, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginView from './compo/loginview';
 import FeedView from './compo/feedview';
 import OrgView from './compo/orgview';
 import NoticeView from './compo/noticeview';
 import ProfileView from './compo/profileview';
 
-const MainView = () => {
-  const [state, setState] = React.useState('feed');
-  const target = {feed: <FeedView />, org: <OrgView />, notice: <NoticeView />, profile: <ProfileView />}[state];
-  const title = {feed: '피드', org: '단체', notice: '알림', profile: '내정보'}[state];
+const Tab = createBottomTabNavigator();
 
-  return(
-    <View style={{
-      flex: 1,
-      flexDirection: 'column',
-    }}>
-      <View style={{
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: 'cornsilk',
-      }}>
-        <View style={{
-          paddingHorizontal: 30,
-          paddingVertical: 20,
-          backgroundColor: 'white'
-        }}>
-          <Text style={{
-            fontSize: 30,
-          }}>
-            {title}
-          </Text>
-        </View>
-        {target}
-      </View>
-      <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingVertical: 5,
-        paddingHorizontal: 20,
-        backgroundColor: 'darkseagreen',
-      }}>
-        <TouchableHighlight onPress={() => setState('feed')}>
-          <Entypo style={styles.icon} name='news' size={36} color='black' />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => setState('org')}>
-          <Octicons style={styles.icon} name='organization' size={36} color='black' />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => setState('notice')}>
-          <Entypo style={styles.icon} name='notification' size={36} color='black' />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => setState('profile')}>
-          <AntDesign style={styles.icon} name='profile' size={36} color='black' />
-        </TouchableHighlight>
-      </View>
-    </View>
+const MainView = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          return {Feed: <Entypo name='news' size={size} color={color} />,
+           Org: <Octicons name='organization' size={size} color={color} />,
+           Notice: <Entypo name='notification' size={size} color={color} />,
+           Profile: <AntDesign name='profile' size={size} color={color} />}[route.name];
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+      }}
+    >
+      <Tab.Screen name="Feed" component={FeedView} />
+      <Tab.Screen name="Org" component={OrgView} />
+      <Tab.Screen name="Notice" component={NoticeView} />
+      <Tab.Screen name="Profile" component={ProfileView} />
+    </Tab.Navigator>
   );
 };
 
+const Stack = createStackNavigator();
+
 export default function App() {
-  const [logined, setLogin] = React.useState(true);
+  const [logined, setLogin] = React.useState(false);
   const loginCheck = () => {
     AsyncStorage.getItem('username')
-      .then((username) => {setLogin(Boolean(username))});
+      .then((username) => {
+        setLogin(Boolean(username));
+      });
   };
 
   loginCheck();
 
   return (
     <NavigationContainer>
-      {logined ? <MainView /> : <LoginView onLogin={loginCheck} />}
+      <Stack.Navigator initialRouteName={logined ? "Main" : "Login"}>
+        <Stack.Screen name="Login" component={LoginView} />
+        <Stack.Screen name="Main" component={MainView} />
+      </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  icon: {
-    paddingHorizontal: 20,
-    paddingVertical: 4,
-  }
-});
