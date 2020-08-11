@@ -44,10 +44,8 @@ const Stack = createStackNavigator();
 export default function App() {
   const [logined, setLogin] = React.useState(false);
   const loginCheck = async () => {
-    await AsyncStorage.getItem('username')
-      .then((username) => {
-        setLogin(Boolean(username));
-      });
+    const username = await AsyncStorage.getItem('username');
+    setLogin(Boolean(username));
   };
 
   loginCheck();
