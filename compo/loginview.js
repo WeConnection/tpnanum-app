@@ -37,8 +37,8 @@ export default function LoginView({navigation}) {
       );
     }
     else{
-      await AsyncStorage.setItem('username', username);
-      await SecureStore.setItemAsync("session", res.headers.get("Set-Cookie"))
+      AsyncStorage.setItem('username', username);
+      await SecureStore.setItemAsync("session", res.headers.get("Set-Cookie"));
       navigation.reset({
         index: 0,
         routes: [{name: 'Main'}],
