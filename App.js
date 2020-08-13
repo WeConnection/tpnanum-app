@@ -18,10 +18,12 @@ const MainView = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          return {Feed: <Entypo name='news' size={size} color={color} />,
-           Org: <Octicons name='organization' size={size} color={color} />,
-           Notice: <Entypo name='notification' size={size} color={color} />,
-           Profile: <AntDesign name='profile' size={size} color={color} />}[route.name];
+          return {
+            Feed: <Entypo name='news' size={size} color={color} />,
+            Org: <Octicons name='organization' size={size} color={color} />,
+            Notice: <Entypo name='notification' size={size} color={color} />,
+            Profile: <AntDesign name='profile' size={size} color={color} />,
+          }[route.name];
         },
       })}
       tabBarOptions={{
@@ -41,11 +43,9 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [logined, setLogin] = React.useState(false);
-  const loginCheck = () => {
-    AsyncStorage.getItem('username')
-      .then((username) => {
-        setLogin(Boolean(username));
-      });
+  const loginCheck = async () => {
+    const username = await AsyncStorage.getItem('username');
+    setLogin(Boolean(username));
   };
 
   loginCheck();
