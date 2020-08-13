@@ -7,7 +7,7 @@ const OrgIcon = (props) => {
     return (
         <View style={props.style}>
             <TouchableHighlight>
-                <Image source={require('../assets/favicon.png')} style={{
+                <Image source={props.imageURL ? {uri: hostaddr + props.imageURL} : require('../assets/favicon.png')} style={{
                     height: 60,
                     width: 60,
                     resizeMode: 'cover',
@@ -72,6 +72,7 @@ const OrgView = () => {
                         marginVertical: 10,
                         marginHorizontal: 20,
                     }}
+                    imageURL={item.imageURL}
                 />}
                 numColumns={fit}
             />}
