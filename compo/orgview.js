@@ -1,18 +1,20 @@
-import React from 'react';
-import { ScrollView, Text, View, Image, TouchableHighlight, useWindowDimensions } from 'react-native';
-import hostaddr from '../config'
+import AsyncStorage from '@react-native-community/async-storage';
+import React, {useState, useEffect} from 'react';
+import { FlatList, Text, View, Image, TouchableHighlight, useWindowDimensions, Alert } from 'react-native';
+import {hostaddr} from '../config'
 
 const OrgIcon = (props) => {
     return (
-        <View>
+        <View style={props.style}>
             <TouchableHighlight>
-                <Image source={require('../assets/favicon.png')} />
+                <Image source={props.imageURL ? {uri: hostaddr + props.imageURL} : require('../assets/favicon.png')} style={{
+                    height: 60,
+                    width: 60,
+                    resizeMode: 'cover',
+                }} />
             </TouchableHighlight>
             <Text>
-                이름
-            </Text>
-            <Text>
-                테그, 테그
+                {props.name}
             </Text>
         </View>
     );
@@ -20,41 +22,61 @@ const OrgIcon = (props) => {
 
 const OrgView = () => {
     const width = useWindowDimensions().width;
-    const count = 10;
     const fit = parseInt(width / 120);
-    let contents = [];
+    const [orgs, setOrgs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    for(let i = 0; i < count / fit; i++)
-    {
-        let row = [];
-        for(let j = 0; (j < fit) && (i * fit + j < count); j++)
-        {
-            row.push(<OrgIcon />);
-        }
-        
-        contents.push(
-            <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                marginHorizontal: 10,
-                marginVertical: 20,
-            }}>
-                {row}
-            </View>
-        );
-    }
+    useEffect(() => {
+        setLoading(true);
+        fetch(hostaddr + '/org/list', {
+            method: 'GET',
+        })
+        .then(res => res.json())
+        .then(json => {
+            setOrgs(json['orgs']);
+        })
+        .catch(err => {
+            Alert.alert(
+            '세션 만료',
+            String(err),
+            [
+              {
+                text: '닫기',
+                style: 'cancle',
+              },
+            ],
+            {cancelable: false},
+            );
+            AsyncStorage.setItem('username', '');
+        })
+        .finally(() => {
+            setLoading(false);
+        });
+    }, []);
 
     return (
-        <ScrollView style={{
+        <View style={{
             flex: 1,
-            flexDirection: 'column',
+            alignItems: 'center',
             marginHorizontal: 20,
             marginVertical: 10,
         }}>
-            {contents}
-        </ScrollView>
+            {loading ? <Text>로딩중</Text> : 
+            <FlatList 
+                data={orgs}
+                renderItem={({item}) => 
+                <OrgIcon 
+                    name={item.name}
+                    style={{
+                        alignItems: 'center',
+                        marginVertical: 10,
+                        marginHorizontal: 20,
+                    }}
+                    imageURL={item.imageURL}
+                />}
+                numColumns={fit}
+            />}
+        </View>
     );
 };
 
