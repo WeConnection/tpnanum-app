@@ -1,10 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import { View, Image, ScrollView, Text, StyleSheet } from 'react-native';
+import { View, Image, ScrollView, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import {hostaddr} from '../config'
 
-const ProfileView = () => {
+const ProfileView = ({navigation}) => {
     const total = 0;
     const [loading, setLoading] = useState(true);
+    const logout = () => {
+        fetch(hostaddr + '/logout')
+        .then(() => navigation.reset({
+            index: 0,
+            routes: [{name: 'Login'}],
+          }));
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -28,10 +36,22 @@ const ProfileView = () => {
                     source={require('../assets/favicon.png')} 
                 />
                 <Text style={{
-                    fontSize: 30,
+                    fontSize: 25,
                 }}>
                     이름
                 </Text>
+                <View style={{flex: 1}}></View>
+                <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                }}>
+                    <TouchableHighlight onPress={logout}>
+                        <MaterialCommunityIcons name="logout" size={38} color="black" />
+                    </TouchableHighlight>
+                    <Text style={{fontSize: 10}}>
+                        Logout
+                    </Text>
+                </View>
             </View>
             {total == 0 ? (
             <View style={[styles.base, styles.row , {justifyContent: 'center'}]}>
@@ -48,7 +68,7 @@ const ProfileView = () => {
                 <Text style={{
                     fontSize: 40
                 }}>
-                    0원
+                    {total + '원'}
                 </Text>
             </View>
             )

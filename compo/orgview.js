@@ -24,9 +24,11 @@ const OrgIcon = (props) => {
                 }}
             />
             <Text style={{
-                fontSize: 18,
-                marginVertical: 5,
-            }}>
+                    fontSize: 18,
+                    marginVertical: 5,
+                }}
+                numberOfLines={1}
+            >
                 {props.name}
             </Text>
             <Text style={{
