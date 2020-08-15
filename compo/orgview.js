@@ -8,7 +8,7 @@ import {hostaddr} from '../config'
 const Loading = () => {
     return (
         <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-            <ActivityIndicator size={100} />
+            <ActivityIndicator size={70} />
         </SafeAreaView>
     );
 };
@@ -75,11 +75,11 @@ const Home = ({navigation, route}) => {
                         style={{
                             flex: 1,
                             alignItems: 'center',
-                            height: 260,
+                            height: 250,
                             width: 180,
                             paddingVertical: 30,
                             paddingHorizontal: 20,
-                            marginHorizontal: 10,
+                            marginHorizontal: 8,
                             marginVertical: 10,
                             backgroundColor: 'white',
                         }}
