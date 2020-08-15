@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Entypo, Octicons, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,7 +14,7 @@ import ProfileView from './compo/profileview';
 
 const Tab = createBottomTabNavigator();
 
-const MainView = () => {
+const MainView = ({navigation}) => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -48,15 +49,19 @@ export default function App() {
     setLogin(Boolean(username));
   };
 
-  loginCheck();
+  useEffect(() => {
+    loginCheck();
+  }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={logined ? "Main" : "Login"}>
-        <Stack.Screen name="Login" component={LoginView} />
-        <Stack.Screen name="Main" component={MainView} />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={logined ? "Main" : "Login"}>
+          <Stack.Screen name="Login" component={LoginView} />
+          <Stack.Screen name="Main" component={MainView} />
+        </Stack.Navigator>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
