@@ -1,12 +1,29 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {hostaddr} from '../config'
 import * as SecureStore from 'expo-secure-store';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+const SignUp = () => {
+  return (
+    <SafeAreaView>
 
-export default function LoginView({navigation}) {
+    </SafeAreaView>
+  );
+};
+
+const Restore = () => {
+  return (
+    <SafeAreaView>
+
+    </SafeAreaView>
+  );
+};
+
+
+const Home = ({navigation}) => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -95,7 +112,7 @@ export default function LoginView({navigation}) {
       <View style={{
         marginVertical: 100,
       }}>
-        <TouchableHighlight>
+        <TouchableHighlight onPress={() => navigation.navigate('SignUp')}>
           <Text style={{
             marginVertical: 10,
             color: 'darkorange',
@@ -103,7 +120,7 @@ export default function LoginView({navigation}) {
             계정을 아직 만들지 않으셨나요?
           </Text>
         </TouchableHighlight>
-        <TouchableHighlight>
+        <TouchableHighlight onPress={() => navigation.navigate('Restore')}>
           <Text style={{
             marginVertical: 10,
             color: 'darkorange',
@@ -115,6 +132,18 @@ export default function LoginView({navigation}) {
     </SafeAreaView>
   );
 }
+
+const Stack = createStackNavigator();
+
+export default function LoginView({navigation}){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Restore" component={Restore} />
+    </Stack.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
