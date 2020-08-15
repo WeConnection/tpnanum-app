@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Alert } from 'react-native';
 import {hostaddr} from '../config'
 import * as SecureStore from 'expo-secure-store';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 
 export default function LoginView({navigation}) {
@@ -61,7 +62,7 @@ export default function LoginView({navigation}) {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={{
         width: 200,
         marginVertical: 100,
@@ -111,7 +112,7 @@ export default function LoginView({navigation}) {
           </Text>
         </TouchableHighlight>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
